@@ -13,7 +13,7 @@ extern int debug;
  */
 tile::tile(QString _title, QString _topic, QString _unit, QSettings *settings)
 {
-    QFont largefont("OpenSans", 30);
+    QFont largefont("OpenSans", 20);
     QRegularExpression opt(".*:.*(,.*:.*)*");
 
     mosqpp::lib_init();
@@ -32,11 +32,6 @@ tile::tile(QString _title, QString _topic, QString _unit, QSettings *settings)
     setFrameShadow(QFrame::Raised);
     setFrameShape(QFrame::Box);
     layout = new QVBoxLayout();
-
-    // QSizePolicy sizePolicy (QSizePolicy::Expanding, QSizePolicy::Preferred );
-    // sizePolicy.setHeightForWidth( true );
-    // layout->setSizePolicy( sizePolicy );
-    // layout->setGeometry(QRect(0, 0, 128, 128));
 
     title_label = new QLabel(_title);
     title_label->setAlignment(Qt::AlignHCenter);
@@ -124,7 +119,10 @@ tile::on_message(const struct mosquitto_message *msg)
 
     s += unit;
     // QFont f = value_label->font();
-    // float factor = value_label->width() / QFontMetrics(f).width(s);
+    // cerr << "label width = " << value_label->width() << " QFontMetrics.width = " << QFontMetrics(f).width(s) << endl;
+    // float factor = value_label->width(); factor /= QFontMetrics(f).width(s);
+    // cerr << "factor=" << factor << endl;
+    // cerr << "Setting point size from " << f.pointSizeF() << " to " << f.pointSizeF()*factor << endl;
     // f.setPointSizeF(f.pointSizeF()*factor);
     // value_label->setFont(f);
     value_label->setText(s);

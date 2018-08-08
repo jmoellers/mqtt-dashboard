@@ -1,9 +1,10 @@
 # include	"grid.h"
 # include	"tile.h"
+// # include	"FixedGridLayout.h"
 
 grid::grid(int _cols)
 {
-    layout = new QGridLayout();
+    layout = new QGridLayout(); // FixedGridLayout(128);
     setLayout(layout);
     row = col = 0;
     cols = _cols;

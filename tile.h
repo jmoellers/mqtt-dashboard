@@ -6,7 +6,8 @@
 # include	<QtWidgets>
 # include	"SquareFrame.h"
 
-class tile : public mosqpp::mosquittopp, public SquareFrame // QFrame
+// class tile : public mosqpp::mosquittopp, public QFrame
+class tile : public SquareFrame, public mosqpp::mosquittopp
 {
     // Q_OBJECT
 public:

@@ -33,7 +33,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = mqtt-dashboard1.0.0
-DISTDIR = /home/josef/bin/src/mqtt-dashboard/.tmp/mqtt-dashboard1.0.0
+DISTDIR = /home/josef/git/mqtt-dashboard/.tmp/mqtt-dashboard1.0.0
 LINK          = g++
 LFLAGS        = -m64 -Wl,-O1
 LIBS          = $(SUBLIBS) -L/usr/X11R6/lib64 -lmosquittopp -lmosquitto -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
@@ -50,10 +50,12 @@ OBJECTS_DIR   = ./
 
 SOURCES       = mqtt-dashboard.cpp \
 		tile.cpp \
-		grid.cpp moc_SquareFrame.cpp
+		grid.cpp \
+		FixedGridLayout.cpp moc_SquareFrame.cpp
 OBJECTS       = mqtt-dashboard.o \
 		tile.o \
 		grid.o \
+		FixedGridLayout.o \
 		moc_SquareFrame.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
@@ -145,9 +147,11 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		mqtt-dashboard.pro tile.h \
 		grid.h \
-		SquareFrame.h mqtt-dashboard.cpp \
+		SquareFrame.h \
+		FixedGridLayout.h mqtt-dashboard.cpp \
 		tile.cpp \
-		grid.cpp
+		grid.cpp \
+		FixedGridLayout.cpp
 QMAKE_TARGET  = mqtt-dashboard
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = mqtt-dashboard
@@ -377,8 +381,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents tile.h grid.h SquareFrame.h $(DISTDIR)/
-	$(COPY_FILE) --parents mqtt-dashboard.cpp tile.cpp grid.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents tile.h grid.h SquareFrame.h FixedGridLayout.h $(DISTDIR)/
+	$(COPY_FILE) --parents mqtt-dashboard.cpp tile.cpp grid.cpp FixedGridLayout.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -405,7 +409,7 @@ compiler_moc_header_make_all: moc_SquareFrame.cpp
 compiler_moc_header_clean:
 	-$(DEL_FILE) moc_SquareFrame.cpp
 moc_SquareFrame.cpp: SquareFrame.h
-	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/josef/bin/src/mqtt-dashboard -I/home/josef/bin/src/mqtt-dashboard -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include SquareFrame.h -o moc_SquareFrame.cpp
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/josef/git/mqtt-dashboard -I/home/josef/git/mqtt-dashboard -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include SquareFrame.h -o moc_SquareFrame.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -430,8 +434,12 @@ tile.o: tile.cpp tile.h \
 
 grid.o: grid.cpp grid.h \
 		tile.h \
-		SquareFrame.h
+		SquareFrame.h \
+		FixedGridLayout.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o grid.o grid.cpp
+
+FixedGridLayout.o: FixedGridLayout.cpp FixedGridLayout.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o FixedGridLayout.o FixedGridLayout.cpp
 
 moc_SquareFrame.o: moc_SquareFrame.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_SquareFrame.o moc_SquareFrame.cpp

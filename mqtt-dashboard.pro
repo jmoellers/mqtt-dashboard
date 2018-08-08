@@ -10,5 +10,5 @@ QT += widgets
 LIBS += -lmosquittopp -lmosquitto
 
 # Input
-HEADERS += tile.h grid.h SquareFrame.h
-SOURCES += mqtt-dashboard.cpp tile.cpp grid.cpp
+HEADERS += tile.h grid.h SquareFrame.h FixedGridLayout.h
+SOURCES += mqtt-dashboard.cpp tile.cpp grid.cpp FixedGridLayout.cpp
